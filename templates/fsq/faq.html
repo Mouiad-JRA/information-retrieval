@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block extra_css %}
+    <style>
+    .center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container center_div">
+<form method="POST" enctype="multipart/form-data">
+
+    <!-- Security token -->
+    {% csrf_token %}
+
+      <div class="form-group col-6">
+    <label for="exampleFormControlInput1">{% trans "Enter your Question" %}</label>
+    <textarea class="form-control" id="exampleFormControlInput1" placeholder="Question" name="text">
+    </textarea>
+  </div>
+  <div class="form-group col-6">
+    <label for="exampleFormControlSelect1"> {% trans "Select Question Type" %} </label>
+    <select class="form-control" id="type" name="type">
+        {% for type in  form.type %}
+      <option> {{ type }}</option>
+        {% endfor %}
+    </select>
+  </div>
+  <div class="form-group col-6">
+    <label for="exampleFormControlTextarea1"> {% trans "Answer" %} </label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="answer_text"></textarea>
+      <br>
+       <button type="submit" class="btn btn-primary " value="Submit"> {% trans "Add" %} </button>
+  </div>
+
+
+
+</form>
+    </div>
+{% endblock %}
+
+
+<
