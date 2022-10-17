@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from django.views import View
-from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 
+from .boolean_model import BooleanModel
 from .forms import FaqForm, ProblemForm
 from .models import Faq, Problem
+from .preprocessing import handler
 
 
 class FaqCreateView(CreateView):
@@ -21,7 +20,14 @@ class ProblemView(CreateView):
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
-        pass
+        handler(Faq.objects.all(), 'data')
+        model = BooleanModel("./data/*")
+        results = model.query("book")
+        print('results1')
+        results = model.query("Dubai")
+        print('results2')
+        print(results)
+
 
 
 # def handel(request):
