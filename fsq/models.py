@@ -31,9 +31,17 @@ TYPE = (
 
 )
 
+BOOLEAN_MODEL, EXTENDED_BOOLEAN_MODEL, VECTOR_MODEL = range(3)
+PROBLEM_TYPE = (
+    (BOOLEAN_MODEL, _('BOOLEAN MODEL'),),
+    (EXTENDED_BOOLEAN_MODEL, _('EXTENDED BOOLEAN MODEL'),),
+    (VECTOR_MODEL, _('VECTOR MODEL'),),
+)
+
 
 class Faq(models.Model):
-    text = models.TextField(db_index=True)
+    question = models.TextField(db_index=True)
+    answer = models.TextField(db_index=True)
     type = models.PositiveSmallIntegerField(verbose_name=_('type'),
                                             choices=TYPE,
                                             default=COVID,
@@ -43,9 +51,14 @@ class Faq(models.Model):
         return f"Question {self.pk}"
 
 
-class Answer(models.Model):
-    text = models.TextField(db_index=True)
-    question = models.ForeignKey(Faq, on_delete=models.CASCADE, related_name="answers")
+class Problem(models.Model):
+    question = models.TextField()
+    type = models.PositiveSmallIntegerField(verbose_name=_('Algorithm Type'),
+                                            choices=PROBLEM_TYPE,
+                                            default=BOOLEAN_MODEL,
+                                            )
 
     def __str__(self):
-        return f"Answer for Question number {self.question}"
+        return f"The Question number that Entered by the user is{self.pk}"
+
+
