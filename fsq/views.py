@@ -8,6 +8,7 @@ from .boolean_model import BooleanModel
 from .forms import FaqForm, ProblemForm
 from .models import Faq, Problem
 from .preprocessing import handler
+from .vector_model import vector_space
 
 
 class FaqCreateView(CreateView):
@@ -42,11 +43,11 @@ class ProblemView(CreateView):
                 print('Extended BooleanModel results')
                 print(results)
             elif algorthim_type == '2':
-                model = BooleanModel("./data/*")
-                results = model.query(question)
+                results = vector_space("./data/*", question)
+                print("results")
+                print(results)
                 print('Vector Model results')
 
-                print(results)
             for question_id in results:
                 faq = Faq.objects.filter(pk=question_id[0:-4]).first()
                 small_response.update({faq.answer: faq.question})
@@ -58,6 +59,4 @@ class ProblemView(CreateView):
             return render(request, 'fsq/answer.html', response)
         except:
             raise ValidationError("Please check")
-
-# def handel(request):
-#     return render(request, 'fsq/answer.html')
+# https://github.com/abuwildanm/Information-Retrieval/blob/master/scraping.py
