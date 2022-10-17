@@ -6,10 +6,19 @@
     margin: 0 auto;
     width:80% /* value of your choice which suits your alignment */
 }
+        hr {
+        position: relative;
+        top: 20px;
+        border: none;
+        height: 12px;
+        background: black;
+        margin-bottom: 50px;
+    }
     </style>
 {% endblock %}
 {% block content %}
     <div class="container center_div">
+    {% if not Result and not empty %}
 <form method="POST" enctype="multipart/form-data">
 
     <!-- Security token -->
@@ -36,6 +45,24 @@
 
 
 </form>
+
+    {% elif not empty %}
+       <b> {% trans "You Result Search are the following..." %} </b>
+        <br>
+        <br>
+        {% for answer in Result %}
+            {{ answer }}
+             <br>
+            <hr>
+            <br>
+        {% endfor %}
+         <a  class="btn btn-primary " href="{% url "answer" %}"> {% trans "Back to search to another Question" %} </a>
+        {% elif empty %}
+          <b>{% trans "You Result Search is Empty, please try another query" %}</b>
+        <br>
+        <br>
+        <a  class="btn btn-primary " href="{% url "answer" %}"> {% trans "Back to search to another Question" %} </a>
+    {% endif %}
 
     </div>
 {% endblock %}
