@@ -14,15 +14,15 @@
 
     <!-- Security token -->
     {% csrf_token %}
-
+        {{ form.errors }}
       <div class="form-group col-6">
     <label for="exampleFormControlInput1">{% trans "Enter your Question" %}</label>
-    <textarea class="form-control" id="exampleFormControlInput1" placeholder="Question" name="question">
+    <textarea class="form-control" id="exampleFormControlInput1" placeholder="Question" name="question" required>
     </textarea>
   </div>
   <div class="form-group col-6">
     <label for="exampleFormControlSelect1"> {% trans "Choose between information retrieval algorithms models" %} </label>
-    <select class="form-control" id="type" name="type">
+    <select class="form-control" id="type" name="type" required>
         {% for type in  form.type %}
       <option> {{ type }}</option>
         {% endfor %}
