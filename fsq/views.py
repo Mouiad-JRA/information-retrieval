@@ -1,5 +1,3 @@
-import json
-
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
@@ -59,4 +57,5 @@ class ProblemView(CreateView):
             return render(request, 'fsq/answer.html', response)
         except:
             raise ValidationError("Please check")
+
 # https://github.com/abuwildanm/Information-Retrieval/blob/master/scraping.py
