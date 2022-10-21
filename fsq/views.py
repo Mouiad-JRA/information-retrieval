@@ -57,8 +57,16 @@ class ProblemView(CreateView):
                 q = q.replace(')', '')
                 for index in q.split(' '):
                     if index != "":
-                        result = f"<p class='words' style='color:red;'>{index.capitalize()}</p>"
-                        string = re.sub(index, result, string.lower(), re.IGNORECASE)
+                        s = string.split()
+                        for i in range(len(s)):
+                            if index.lower() in s[i].lower():
+                                result = f"<b><span class='words' style='color:red;'>{s[i].capitalize()}</span></b>"
+                                s[i] = result
+                        listToStr = ' '.join([str(elem) for elem in s])
+                        string = listToStr
+                        # result = f"<b><span class='words' style='color:red;'>{index.capitalize()}</span></b>"
+                        # string = re.sub(index, result, string.lower(), re.IGNORECASE)
+
                 print('momo')
                 print(string)
                 small_response.update({string: faq.question})
