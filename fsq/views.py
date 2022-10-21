@@ -1,5 +1,6 @@
 import re
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 
@@ -67,17 +68,15 @@ class ProblemView(CreateView):
                         # result = f"<b><span class='words' style='color:red;'>{index.capitalize()}</span></b>"
                         # string = re.sub(index, result, string.lower(), re.IGNORECASE)
 
-                print('momo')
-                print(string)
                 small_response.update({string: faq.question})
             response.update({'empty': True})
             if small_response:
                 response.update({'empty': False})
                 response.update({'Result': small_response})
-
             return render(request, 'fsq/answer.html', response)
 
-        except:
-            raise ValidationError("Please check")
+        except Exception as e:
+            return HttpResponse(f"<h1>Please Check this Error{e}</h1>")
+
 
 # https://github.com/abuwildanm/Information-Retrieval/blob/master/scraping.py
