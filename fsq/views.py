@@ -78,5 +78,3 @@ class ProblemView(CreateView):
         except Exception as e:
             return HttpResponse(f"<h1>Please Check this Error{e}</h1>")
 
-
-# https://github.com/abuwildanm/Information-Retrieval/blob/master/scraping.py
