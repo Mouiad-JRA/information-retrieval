@@ -60,10 +60,10 @@ class ProblemView(CreateView):
                         s = string.split()
                         for i in range(len(s)):
                             if index.lower() in s[i].lower():
-                                result = f"<b><span class='words' style='color:red;'>{s[i].capitalize()}</span></b>"
+                                result = f"<b><span>{s[i].capitalize()}</span></b>"
                                 s[i] = result
-                        listToStr = ' '.join([str(elem) for elem in s])
-                        string = listToStr
+                        list_to_str = ' '.join([str(elem) for elem in s])
+                        string = list_to_str
                         # result = f"<b><span class='words' style='color:red;'>{index.capitalize()}</span></b>"
                         # string = re.sub(index, result, string.lower(), re.IGNORECASE)
 
