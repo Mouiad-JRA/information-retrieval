@@ -1,3 +1,4 @@
+import re
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
@@ -48,13 +49,26 @@ class ProblemView(CreateView):
 
             for question_id in results:
                 faq = Faq.objects.filter(pk=question_id[0:-4]).first()
-                small_response.update({faq.answer: faq.question})
+                string = faq.answer
+                q = question.lower().replace('and', '')
+                q = q.replace('or', '')
+                q = q.replace('()', '')
+                q = q.replace('(', '')
+                q = q.replace(')', '')
+                for index in q.split(' '):
+                    if index != "":
+                        result = f"<p class='words' style='color:red;'>{index.capitalize()}</p>"
+                        string = re.sub(index, result, string.lower(), re.IGNORECASE)
+                print('momo')
+                print(string)
+                small_response.update({string: faq.question})
             response.update({'empty': True})
             if small_response:
                 response.update({'empty': False})
                 response.update({'Result': small_response})
-            print(response)
+
             return render(request, 'fsq/answer.html', response)
+
         except:
             raise ValidationError("Please check")
 
