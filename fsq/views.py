@@ -39,8 +39,10 @@ class ProblemView(CreateView):
                 print(results)
             elif algorthim_type == '1':
                 model = BooleanModel("./data/*")
-                results = model.query(question)
+                boolean_results = model.query(question)
+                vector_results = vector_space("./data/*", question)
                 print('Extended BooleanModel results')
+                results = boolean_results + vector_results
                 print(results)
             elif algorthim_type == '2':
                 results = vector_space("./data/*", question)
