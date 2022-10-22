@@ -60,12 +60,12 @@
             <hr>
             <br>
         {% endfor %}
-         <a  class="btn btn-primary " href="{% url "answer" %}"> {% trans "Back to search to another Question" %} </a>
+         <a  class="btn btn-primary " href="{% url "answer_ar" %}"> {% trans "Back to search to another Question" %} </a>
         {% elif empty %}
           <b>{% trans "You Result Search is Empty, please try another query" %}</b>
         <br>
         <br>
-        <a  class="btn btn-primary " href="{% url "answer" %}"> {% trans "Back to search to another Question" %} </a>
+        <a  class="btn btn-primary " href="{% url "answer_ar" %}"> {% trans "Back to search to another Question" %} </a>
 
     {% endif %}
 

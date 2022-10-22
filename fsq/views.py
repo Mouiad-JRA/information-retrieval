@@ -95,7 +95,7 @@ class ProblemARView(CreateView):
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
-        handler(FaqAR.objects.all(), 'data')
+        handler(FaqAR.objects.all(), 'data_ar')
         try:
             question = self.request.POST.get('question')
             algorthim_type = self.request.POST.get('type')
