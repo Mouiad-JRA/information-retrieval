@@ -47,7 +47,7 @@ class ProblemARForm(forms.ModelForm):
         fields = ['question', 'type']
 
     def __init__(self, *args, **kwargs):
-        super(ProblemForm, self).__init__(*args, **kwargs)
+        super(ProblemARForm, self).__init__(*args, **kwargs)
         for bound_field in self:
             if hasattr(bound_field, "field") and bound_field.field.required:
                 bound_field.field.widget.attrs["required"] = "required"

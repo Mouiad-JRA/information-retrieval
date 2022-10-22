@@ -43,6 +43,7 @@
   <div class="form-group col-6">
       <br>
        <button type="submit" class="btn btn-primary " value="Submit"> {% trans "Get the Answer Now" %} </button>
+         <a href="{% url "create_en" %}" class="btn btn-primary float-right "> {% trans "OR Add English Question?" %}</a>
   </div>
 
 
@@ -65,6 +66,7 @@
         <br>
         <br>
         <a  class="btn btn-primary " href="{% url "answer" %}"> {% trans "Back to search to another Question" %} </a>
+
     {% endif %}
 
     </div>
