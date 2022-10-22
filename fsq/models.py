@@ -72,3 +72,14 @@ class Problem(models.Model):
 
     def __str__(self):
         return f"The Question number that Entered by the user is{self.pk}"
+
+
+class ProblemAR(models.Model):
+    question = models.TextField()
+    type = models.PositiveSmallIntegerField(verbose_name=_('Algorithm Type'),
+                                            choices=PROBLEM_TYPE,
+                                            default=BOOLEAN_MODEL,
+                                            )
+
+    def __str__(self):
+        return f"The Arabic Question number that Entered by the user is{self.pk}"
