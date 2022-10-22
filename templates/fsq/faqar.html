@@ -16,12 +16,12 @@
     {% csrf_token %}
 
       <div class="form-group col-6">
-    <label for="exampleFormControlInput1">{% trans "Enter your Question" %}</label>
+    <label for="exampleFormControlInput1">{% trans "Enter your Arbic Question" %}</label>
     <textarea class="form-control" id="exampleFormControlInput1" placeholder="Question" name="question">
     </textarea>
   </div>
   <div class="form-group col-6">
-    <label for="exampleFormControlSelect1"> {% trans "Select Question Type" %} </label>
+    <label for="exampleFormControlSelect1"> {% trans "Select Your Arabic Question Type" %} </label>
     <select class="form-control" id="type" name="type">
         {% for type in  form.type %}
       <option> {{ type }}</option>
@@ -33,8 +33,8 @@
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="answer"></textarea>
       <br>
        <button type="submit" class="btn btn-primary " value="Submit"> {% trans "Add" %} </button>
-       <a href="{% url "answer" %}" class="btn btn-danger float-right "> {% trans "ASK Question" %}</a>
-             <a href="{% url "create_ar" %}" class="btn btn-primary float-right "> {% trans "OR Add Arabic Question?" %}</a>
+       <a href="{% url "answer" %}" class="btn btn-danger float-right "> {% trans "ASK Arabic Question" %}</a>
+       <a href="{% url "create_en" %}" class="btn btn-primary float-right "> {% trans "OR Add English Question?" %}</a>
   </div>
 
 

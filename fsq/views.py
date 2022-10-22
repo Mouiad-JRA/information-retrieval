@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 
 from .boolean_model import BooleanModel
-from .forms import FaqForm, ProblemForm
-from .models import Faq, Problem
+from .forms import FaqForm, ProblemForm, FaqARForm
+from .models import Faq, Problem, FaqAR
 from .preprocessing import handler
 from .vector_model import vector_space
 
@@ -15,7 +15,14 @@ class FaqCreateView(CreateView):
     form_class = FaqForm
     queryset = Faq.objects.all()
     template_name = 'fsq/faq.html'
-    success_url = '/'
+    success_url = 'en'
+
+
+class FaqARCreateView(CreateView):
+    form_class = FaqARForm
+    queryset = FaqAR.objects.all()
+    template_name = 'fsq/faqar.html'
+    success_url = 'ar'
 
 
 class ProblemView(CreateView):
@@ -81,4 +88,3 @@ class ProblemView(CreateView):
         #     return HttpResponse(f"<h5>Please Check this Error{e}</h5>")
         except Exception as e:
             raise ValidationError(e)
-
