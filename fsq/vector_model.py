@@ -203,8 +203,10 @@ def similarity(query, id):
             # For every term in query which is also in vocabulary,
             # calculate tf-idf score of the term and add to similarity
             similarity += term_frequency(term, id) * inverse_document_frequency(term)
-
-    similarity = similarity / length[id]
+    try:
+        similarity = similarity / length[id]
+    except:
+        similarity = 0
 
     return similarity
 

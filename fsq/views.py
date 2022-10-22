@@ -77,6 +77,8 @@ class ProblemView(CreateView):
                 response.update({'Result': small_response})
             return render(request, 'fsq/answer.html', response)
 
+        # except Exception as e:
+        #     return HttpResponse(f"<h5>Please Check this Error{e}</h5>")
         except Exception as e:
-            return HttpResponse(f"<h1>Please Check this Error{e}</h1>")
+            raise ValidationError(e)
 
