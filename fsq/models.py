@@ -51,6 +51,18 @@ class Faq(models.Model):
         return f"Question {self.pk}"
 
 
+class FaqAR(models.Model):
+    question = models.TextField(db_index=True)
+    answer = models.TextField(db_index=True)
+    type = models.PositiveSmallIntegerField(verbose_name=_('type'),
+                                            choices=TYPE,
+                                            default=COVID,
+                                            db_index=True, )
+
+    def __str__(self):
+        return f"Arabic Question {self.pk}"
+
+
 class Problem(models.Model):
     question = models.TextField()
     type = models.PositiveSmallIntegerField(verbose_name=_('Algorithm Type'),
@@ -60,5 +72,3 @@ class Problem(models.Model):
 
     def __str__(self):
         return f"The Question number that Entered by the user is{self.pk}"
-
-
