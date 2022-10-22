@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 
 from .boolean_model import BooleanModel
+from .boolean_model_ar import BooleanModelAR
 from .forms import FaqForm, ProblemForm, FaqARForm, ProblemARForm
 from .models import Faq, Problem, FaqAR
 from .preprocessing import handler
@@ -103,7 +104,7 @@ class ProblemARView(CreateView):
             response = {}
             small_response = {}
             if algorthim_type == '0':
-                model = BooleanModel("./data_ar/*")
+                model = BooleanModelAR("./data_ar/*")
                 results = model.query(question)
                 print('BooleanModel results')
                 print(results)
