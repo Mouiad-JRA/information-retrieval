@@ -96,7 +96,7 @@ class ProblemARView(CreateView):
     success_url = '/'
 
     def post(self, request, *args, **kwargs):
-        handler(FaqAR.objects.all(), 'data_ar')
+        handler(FaqAR.objects.all(), 'bata')
         try:
             question = self.request.POST.get('question')
             algorthim_type = self.request.POST.get('type')
@@ -104,19 +104,19 @@ class ProblemARView(CreateView):
             response = {}
             small_response = {}
             if algorthim_type == '0':
-                model = BooleanModel("./data_ar/*", language='ar')
+                model = BooleanModel("./bata/*", language='ar')
                 results = model.query(question)
                 print('BooleanModel results')
                 print(results)
             elif algorthim_type == '1':
-                model = BooleanModel("./data_ar/*", language='ar')
+                model = BooleanModel("./bata/*", language='ar')
                 boolean_results = model.query(question)
-                vector_results = vector_space("./data_ar/*", question)
+                vector_results = vector_space("./bata/*", question)
                 print('Extended BooleanModel results')
                 results = boolean_results + vector_results
                 print(results)
             elif algorthim_type == '2':
-                results = vector_space("./data_ar/*", question)
+                results = vector_space("./bata/*", question)
                 print("results")
                 print(results)
                 print('Vector Model results')
