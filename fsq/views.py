@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 
 from .boolean_model import BooleanModel
-from .boolean_model_ar import BooleanModelAR
+
 from .forms import FaqForm, ProblemForm, FaqARForm, ProblemARForm
 from .models import Faq, Problem, FaqAR
 from .preprocessing import handler
@@ -104,12 +104,12 @@ class ProblemARView(CreateView):
             response = {}
             small_response = {}
             if algorthim_type == '0':
-                model = BooleanModelAR("./data_ar/*")
+                model = BooleanModel("./data_ar/*", language='ar')
                 results = model.query(question)
                 print('BooleanModel results')
                 print(results)
             elif algorthim_type == '1':
-                model = BooleanModel("./data_ar/*")
+                model = BooleanModel("./data_ar/*", language='ar')
                 boolean_results = model.query(question)
                 vector_results = vector_space("./data_ar/*", question)
                 print('Extended BooleanModel results')
@@ -122,7 +122,7 @@ class ProblemARView(CreateView):
                 print('Vector Model results')
 
             for question_id in results:
-                faq = Faq.objects.filter(pk=question_id[0:-4]).first()
+                faq = FaqAR.objects.filter(pk=question_id[0:-4]).first()
                 string = faq.answer
                 q = question.lower().replace('and', '')
                 q = q.replace('or', '')

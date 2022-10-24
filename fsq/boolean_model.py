@@ -9,20 +9,115 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 
-from fsq.Stack import Stack
-from fsq.query import infix_to_postfix, is_operator
+from collections import deque
+
+
+class Stack:
+    def __init__(self):
+        self.__list = deque()
+
+    def push(self, key):
+        self.__list.append(key)
+
+    def pop(self):
+        return self.__list.pop()
+
+    def peek(self):
+        key = self.__list.pop()
+        self.__list.append(key)
+        return key
+
+    def is_empty(self):
+        return len(self.__list) == 0
+
+    def __str__(self):
+        return "[" + ", ".join(self.__list) + "]"
+
+    def __len__(self):
+        return len(self.__list)
+
+
+def precedence(token):
+    """ Precedence of supported operators """
+    __precedence = {"&": 2, "|": 1}
+    try:
+        return __precedence[token]
+    except:
+        return -1
+
+
+def is_left_bracket(token):
+    """ Returns true if left bracket """
+    return token == "("
+
+
+def is_right_bracket(token):
+    """ Returns true if right bracket """
+    return token == ")"
+
+
+def is_operator(token):
+    """ Returns true if operator """
+    return token == "&" or token == "|"
+
+
+def infix_to_postfix(tokens):
+    """Converts a infix query into postfix
+    Input : ['god', '&', '(', '~child', '|', 'mother', ')']
+    Output : ['god', '~child', 'mother', '|', '&']
+
+    :param tokens: list of tokens in infix form
+    :returns: same list of tokens in postfix form
+    """
+
+    stack = Stack()
+    postfix = list()
+
+    for token in tokens:
+
+        if is_left_bracket(token):
+            # Left bracket "("
+            stack.push(token)
+
+        elif is_right_bracket(token):
+            # Right bracket ")"
+            while (not stack.is_empty()) and stack.peek() != "(":
+                key = stack.pop()
+                postfix.append(key)
+            if not stack.is_empty() and stack.peek() != "(":
+                raise ValueError("Query isn't well formatted")
+            else:
+                stack.pop()
+
+        elif is_operator(token):
+            # Operator
+            while not stack.is_empty() and (
+                    precedence(token) <= precedence(stack.peek())
+            ):
+                postfix.append(stack.pop())
+            stack.push(token)
+
+        else:
+            # Operand
+            postfix.append(token)
+
+    # Pop all the operator from the stack
+    while not stack.is_empty():
+        postfix.append(stack.pop())
+
+    return postfix
 
 
 class BooleanModel(object):
     """ Boolean model for unranked retrieval of information """
 
-    def __init__(self, path):
-
+    def __init__(self, path, language='en'):
+        self.language = language
         # Path to corpus of documents
         self.CORPUS = path
 
         # Set of english stopwords to exclude while preprocessing
-        self.STOPWORDS = set(stopwords.words("english"))
+        self.STOPWORDS = set(stopwords.words("english")) if language == 'en' else set(stopwords.words("arabic"))
 
         # For stemming purposes
         self.STEMMER = PorterStemmer()
@@ -50,7 +145,7 @@ class BooleanModel(object):
             # print(filename)
 
             # Read the document
-            with open(filename, "r") as file:
+            with open(filename, "r", encoding='utf-8') as file:
                 text = file.read()
 
             # Remove all special characters from the text
@@ -218,7 +313,7 @@ class BooleanModel(object):
         """Removes special characters from a blob of text"""
 
         # Regex pattern for a word
-        regex = re.compile(r"[^a-zA-Z0-9\s]")
+        regex = re.compile(r"[^a-zA-Z0-9\s\u0600-\u06FF]")
 
         # Replace and return
         return re.sub(regex, "", text)
