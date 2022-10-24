@@ -8,7 +8,6 @@ from functools import reduce
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-STOPWORDS = set(stopwords.words("english"))
 
 document_filenames = dict()
 
@@ -44,7 +43,7 @@ def get_corpus(data):
     document_filenames = dict(zip(range(N), documents))
 
 
-def initialize_terms_and_postings():
+def initialize_terms_and_postings(language='english'):
     """Reads in each document in document_filenames, splits it into a
     list of terms (i.e., tokenizes it), adds new terms to the global
     vocabulary, and adds the document to the posting list for each
@@ -55,7 +54,7 @@ def initialize_terms_and_postings():
     for id in document_filenames:
 
         # Read the document
-        with open(document_filenames[id], "r") as f:
+        with open(document_filenames[id], "r", encoding="utf-8") as f:
             document = f.read()
 
         # Remove all special characters from the document
@@ -65,7 +64,7 @@ def initialize_terms_and_postings():
         document = remove_digits(document)
 
         # Tokenize the document
-        terms = tokenize(document)
+        terms = tokenize(document, language)
 
         # Remove duplicates from the terms
         unique_terms = set(terms)
@@ -79,7 +78,7 @@ def initialize_terms_and_postings():
             postings[term][id] = terms.count(term)
 
 
-def tokenize(document):
+def tokenize(document, language='english'):
     """Returns a list whose elements are the separate terms in document
     :param document: document to tokenize
     :returns: list of lowercased tokens after removing stopwords
@@ -88,6 +87,7 @@ def tokenize(document):
     terms = word_tokenize(document)
 
     # Remove stopwords and convert remaining terms to lowercase
+    STOPWORDS = set(stopwords.words(language))
     terms = [term.lower() for term in terms if term not in STOPWORDS]
 
     return terms
@@ -158,11 +158,11 @@ def print_scores(scores):
     return document_name
 
 
-def do_search(query):
+def do_search(query, language='english'):
     """Asks the user what they would like to search for, and returns a
     list of relevant documents, in decreasing order of cosine similarity
     """
-    query = tokenize(query)
+    query = tokenize(query, language)
 
     # Exit if query is empty
     if query == []:
@@ -213,7 +213,7 @@ def similarity(query, id):
 
 def remove_special_characters(text):
     """ Removes special characters using regex substitution """
-    regex = re.compile(r"[^a-zA-Z0-9\s]")
+    regex = re.compile(r"[^a-zA-Z0-9\s\u0600-\u06FF]")
     return re.sub(regex, "", text)
 
 
@@ -221,3 +221,7 @@ def remove_digits(text):
     """ Removes digits using regex substitution """
     regex = re.compile(r"\d")
     return re.sub(regex, "", text)
+
+
+results = vector_space("./data/*", "النص")
+print(results)
